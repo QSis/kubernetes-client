@@ -63,7 +63,7 @@ function upgradeRequest (options, cb) {
   const queryParams = qs.stringify(options.qs, { indices: false })
   const wsUrl = urljoin(options.baseUrl, options.uri, `?${queryParams}`)
   const protocol = 'base64.channel.k8s.io'
-  const authorization = `Bearer ${options.auth.bearer}`
+  let authorization = `Bearer ${options.auth.bearer}`
 
   if (options.auth.user && options.auth.pass) {
     const userpass = new Buffer(options.auth.user + ':' + options.auth.pass)
