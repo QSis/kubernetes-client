@@ -20,6 +20,7 @@ function convertKubeconfig (kubeconfig) {
 
   let ca
   let insecureSkipTlsVerify = false
+  let timeout = 10000 // default 10s timeout
   if (cluster) {
     if (cluster.caFile) {
       ca = fs.readFileSync(path.normalize(cluster.caFile))
@@ -27,6 +28,9 @@ function convertKubeconfig (kubeconfig) {
       ca = Buffer.from(cluster.caData, 'base64').toString()
     }
     insecureSkipTlsVerify = cluster.skipTLSVerify
+    if (cluster.timeout) {
+      timeout = cluster.timeout
+    }
   }
 
   let cert
@@ -115,7 +119,8 @@ function convertKubeconfig (kubeconfig) {
     insecureSkipTlsVerify,
     namespace,
     cert,
-    key
+    key,
+    timeout
   }
 }
 
